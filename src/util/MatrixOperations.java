@@ -35,11 +35,18 @@ public class MatrixOperations {
 	public static boolean equalsAB(int[][] a, int[][] b) {
 		int n = a.length;
 		boolean result = true;
+		long beginning = System.nanoTime();
 		for (int i = 0; i < n; i++){
 			for (int j = 0; j < n; j++){
 				result = result && (a[i][j] == b[i][j]);
 			}
 		}
+		long end = System.nanoTime();
+		String duration_text = String.format(
+				"Tiempo de ejecución (nanosegundos): %d",
+				end - beginning
+		);
+		System.out.println(duration_text);
 		return result;
 	}
 
