@@ -1,5 +1,6 @@
 package util;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class MatrixOperations {
@@ -88,6 +89,21 @@ public class MatrixOperations {
 		long end = System.nanoTime();
 
 		return new BoolLongPair(result, end - beginning);
+	}
+
+	/**
+	 * Creates a deep copy of a given square integer matrix.
+	 *
+	 * @param matrix Square matrix to be deep copied.
+	 * @return A deep copy of the matrix.
+	 */
+	public static int[][] matrixDeepCopy(int[][] matrix) {
+		int len = matrix.length;
+		int[][] copy = new int[len][];
+		for (int i = 0; i < len; i++) {
+			copy[i] = Arrays.copyOf(matrix[i], len);
+		}
+		return copy;
 	}
 
 }
