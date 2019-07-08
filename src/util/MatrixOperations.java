@@ -30,24 +30,19 @@ public class MatrixOperations {
 	 *
 	 * @param a 1st matrix to be compared.
 	 * @param b 2nd matrix to be compared.
-	 * @return If all elements in a are equal to the corresponding elements in b.
+	 * @return BoolLongPair where the boolean is if the matrices are equal and the long the execution time.
 	 */
-	public static boolean equalsAB(int[][] a, int[][] b) {
+	public static BoolLongPair equalsAB(int[][] a, int[][] b) {
 		int n = a.length;
 		boolean result = true;
 		long beginning = System.nanoTime();
-		for (int i = 0; i < n; i++){
-			for (int j = 0; j < n; j++){
-				result = result && (a[i][j] == b[i][j]);
+		for (int i = 0; i < n && result; i++) {
+			for (int j = 0; j < n && result; j++) {
+				result = a[i][j] == b[i][j];
 			}
 		}
 		long end = System.nanoTime();
-		String duration_text = String.format(
-				"Tiempo de ejecución (nanosegundos): %d",
-				end - beginning
-		);
-		System.out.println(duration_text);
-		return result;
+		return new BoolLongPair(result, end - beginning);
 	}
 
 }
