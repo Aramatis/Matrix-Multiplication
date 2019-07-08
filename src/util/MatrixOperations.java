@@ -1,5 +1,7 @@
 package util;
 
+import java.util.Random;
+
 public class MatrixOperations {
 
 	/**
@@ -42,6 +44,49 @@ public class MatrixOperations {
 			}
 		}
 		long end = System.nanoTime();
+		return new BoolLongPair(result, end - beginning);
+	}
+
+	/**
+	 * Checks if a x b = c using a probabilistic algorithm.
+	 *
+	 * @param a 1st matrix of the multiplication.
+	 * @param b 2nd matrix of the multiplication.
+	 * @param c Matrix to check equality to a x b.
+	 * @param k Amount of repetitions for the probabilistic algorithm.
+	 * @return BoolLongPair where the boolean is if a x b = c and the long the execution time.
+	 */
+	public static BoolLongPair probabilisticEqualsAB(int[][] a, int[][] b, int[][] c, int k) {
+		int n = c.length;
+		Random rng = new Random();
+		int[] selected_cols;
+		boolean result = true;
+
+		// NOTE: According to java 12 documentation, calling "rng.ints(n, origin, bound)" is about as random as
+		// calling "rng.nextInt(bound) - origin" n times, and both should be at least (if not more) random than
+		// creating a new random generator for each number
+
+		long beginning = System.nanoTime();
+		for (int f = 0; f < k && result; f++) {
+			selected_cols = rng.ints(n, 0, 2).toArray();
+			int acc;
+			for (int i = 0; i < n && result; i++) {
+				for (int j = 0; j < n; j++) {
+					if (selected_cols[j] == 0) {
+						continue;
+					}
+					acc = 0;
+					for (int l = 0; l < n && result; l++) {
+						acc += a[i][l] * b[l][j];
+					}
+					if (acc != c[i][j]) {
+						result = false;
+					}
+				}
+			}
+		}
+		long end = System.nanoTime();
+
 		return new BoolLongPair(result, end - beginning);
 	}
 
